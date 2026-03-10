@@ -3,6 +3,7 @@
 #include "level.h"
 #include "entity.h"
 #include "stdlib.h"
+#include "time.h"
 
 static Level level;
 
@@ -14,9 +15,13 @@ static Level level;
 // You can have hammer and cleaning product and drag them or become a cursor or?
 // Maybe just scroll between them
 
+// TODO: Audio synthesis for the _art noises :|
+// TODO: Think more gameplay mechanics
+
 void game_init(Game_State *gs) {
   gs->game_init_timestamp = gs->time_sec; 
   level = make_new_level();
+  srand(time(0));
 
 
   // Generate the map
@@ -28,32 +33,25 @@ void game_init(Game_State *gs) {
       for (u32 mb_i = 0; mb_i < level.pit_count_x; mb_i+=1) {
         for (u32 mb_j = 0; mb_j < level.pit_count_x; mb_j+=1) {
           b32 entity_is_pit = (mb_i == 1 && mb_j == 1);
-          Entity *e = level_add_entity(&level);
-          *e = (Entity) {
-            .tile_pos = v2m(i * 3 + mb_i, j * 3 + mb_j),
-            .kind =  entity_is_pit ? ENTITY_KIND_PIT : ENTITY_KIND_GROUND,
-            .tc = v2m(entity_is_pit ? 8*2 : 8*1, 0),
-            .dim_px = level.pit_dim_px,
-          };
+          if (entity_is_pit) {
+            make_pit_entity(level_add_entity(&level), v2m(i * 3 + mb_i, j * 3 + mb_j), level.pit_dim_px);
+          } else {
+            make_ground_entity(level_add_entity(&level), v2m(i * 3 + mb_i, j * 3 + mb_j), level.pit_dim_px);
+          }
         }
       }
     }
   }
 
-  // Spawn humans
-  u32 humans_to_spawn = 2;
-  for (u32 human_idx = 0; human_idx < humans_to_spawn; human_idx+=1) {
-    v2 tp = v2m(human_idx, human_idx);
-    Entity *e = level_add_entity(&level);
-
-    *e = (Entity) {
-      .tile_pos = tp,
-      .kind = ENTITY_KIND_HUMAN, 
-      .tc = v2m(8*7, 0),
-      .dim_px = level.pit_dim_px,
-    };
-  }
-
+  for (u32 i = 1; i < 9; i += 3) {
+    for (u32 j = 1; j < 9; j += 3) {
+      if ((rand()%10) < 5) {
+        make_human_entity(level_add_entity(&level), v2m(i,j), level.pit_dim_px);
+      }else {
+        make_goblin_entity(level_add_entity(&level), v2m(i,j), level.pit_dim_px);
+      }
+    }
+  } 
 
 }
 
