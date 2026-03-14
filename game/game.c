@@ -62,7 +62,7 @@ void game_update(Game_State *gs, float dt) {
     gui_initialized = true;
   }
   gs->game_viewport = rec(0,0,gs->screen_dim.x, gs->screen_dim.y);
-  level_update(&level, gs, dt);
+  //level_update(&level, gs, dt);
 }
 
 
@@ -77,7 +77,7 @@ void game_render(Game_State *gs, float dt) {
   r2d_push_cmd(gs->frame_arena, &gs->cmd_list, cmd, 256);
 
 
-  level_render(&level, gs);
+  //level_render(&level, gs);
 
   // ..
   // ..
@@ -89,6 +89,10 @@ void game_render(Game_State *gs, float dt) {
   }
   gui_frame_begin(gs->screen_dim, &gs->input, &gs->cmd_list, dt);
 
+#if 1
+  static Simple_Game_Options opt;
+  gui_simple_game_options_menu(MAKE_STR("Main_Pane"), &opt);
+#else
 	gui_set_next_child_layout_axis(GUI_AXIS_X);
   gui_set_next_pref_height((Gui_Size){GUI_SIZE_KIND_PARENT_PCT, 1.0, 1.0});
   gui_set_next_pref_width((Gui_Size){GUI_SIZE_KIND_PARENT_PCT, 1.0, 1.0});
@@ -127,6 +131,8 @@ void game_render(Game_State *gs, float dt) {
     */
   }
   gui_pop_parent();
+#endif
+
   //--------------
   gui_frame_end();
 }
