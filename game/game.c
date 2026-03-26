@@ -1,10 +1,15 @@
+// FIXME: Why is this needed, wont we get this definition from platform? seed?
+#define BRAND_IMPLEMENTATION
+
 #include "game.h"
 #include "gui/gui.h"
 #include "level.h"
 #include "entity.h"
 
+// TODO: read this
 // https://www.gamedeveloper.com/programming/improved-lerp-smoothing-
 
+// Game Idea:
 // There are goblins and peasants coming out of each hole
 // You want to find and WHACK as many goblins as possible
 // they can fart though and create fog of war YOU must cleanup
@@ -18,8 +23,14 @@ void game_init(Game_State *gs) {
   gs->game_init_timestamp = gs->time_sec; 
   gs->next_level_idx = 0;
 
-  // Here just to skip the GUI start screen - remove for actual play with gui
-  //gs->level = (void*)make_new_level(3, gs->next_level_idx++);
+  // RNG test
+#if 0
+  for(u32 i = 0; i < 20; i+=1) {
+    f64 r = brand_srange(-2,2);
+    printf("r= %f\n", r);
+  }
+#endif
+
 }
 
 void game_update(Game_State *gs, float dt) {
