@@ -4,11 +4,6 @@
 #include "base/base_inc.h"
 #include "core/core_inc.h"
 
-typedef enum {
-  MODE_MENU,
-  MODE_GAME,
-} Game_Mode;
-
 typedef struct {
   s32 current_sine_sample; // not needed
   s32 sample_rate;
@@ -30,9 +25,12 @@ typedef struct {
   Input input;
   R2D_Cmd_Chunk_List cmd_list;
   Game_Audio_Output_Buffer audio_out;
+  b32 should_close;
 
   // Game stuff
   f64 game_init_timestamp;
+  void *level; // Should be Level* I think
+  u32 next_level_idx;
 
   // Loaded Asset resources (TODO: Asset system)
   Ogl_Tex atlas;
