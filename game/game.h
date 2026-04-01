@@ -17,7 +17,11 @@ typedef struct {
 typedef struct {
   Arena *persistent_arena; // For persistent allocations
   Arena *frame_arena; // For per-frame allocations
+
   rect game_viewport;
+  // TODO: we could smoothly interpolate zoom!
+  f32 zoom;
+  f32 zoom_damp_factor;
   
   // Interface between platform <-> game
   f32 time_sec;

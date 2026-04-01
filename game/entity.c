@@ -35,7 +35,6 @@ void make_human_entity(Entity *e, v2 tile_pos, f32 dim) {
   e->anim_speed = 0.5 + (rand()%10)/10.0;
 }
 
-
 void make_ground_entity(Entity *e, v2 tile_pos, f32 dim) {
   e->tile_pos = tile_pos;
   e->tc.x = 8*1;

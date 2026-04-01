@@ -13,7 +13,7 @@ typedef struct {
   Arena *arena;
   Entities entities;
 
-  f32 pit_dim_px;
+  f32 pit_dim_mt;
   u32 pit_count_x;
   u32 pit_count_y;
 
